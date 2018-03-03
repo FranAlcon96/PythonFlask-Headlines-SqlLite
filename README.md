@@ -18,3 +18,5 @@ Apliación de headlines con persistencia empleando una base de datos SqlLite.
 
 ## Ejecución:
 
+* Nos colocamos en la carpeta de este proyecto y ejecutamos lo siguiente : python headlines.py
+* Para acceder a la aplicación : http://localhost:5300
