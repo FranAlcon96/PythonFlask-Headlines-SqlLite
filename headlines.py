@@ -47,21 +47,16 @@ def saveNews():
           published = article.published
        	else:
           published = ''
-
-        print "wwwwwwwwwwwwwwww"
-        cursor.execute('''INSERT into news (title, link, publisher)
+       cursor.execute('''INSERT into news (title, link, publisher)
                       values (?, ?, ?);''',(title,link,published))
-        print "wwwww---------wwwwwwwwwww"
   con.commit()      
   return render_template("home.html", articles=articles,titles=Titles)
-
+# méotodo que borra todos los registros de la base de datos.
 @app.route("/delete")      
 def deleteNews():
   con = sqlite3.connect("news.db")
   cursor = con.cursor()
-  print "wwwwwwwwwwwwwwww"
   cursor.execute('''DELETE FROM news ''')
-  print "wwwww---------wwwwwwwwwww"
   con.commit()      
   return render_template("home.html", articles=articles,titles=Titles)
 
