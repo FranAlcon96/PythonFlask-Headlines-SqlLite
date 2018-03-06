@@ -32,26 +32,38 @@ articles['abc'] = feedparser.parse(RSS_FEED['abc'])['entries'][:5]
 articles['elm'] = feedparser.parse(RSS_FEED['elm'])['entries'][:5]
 
 #Método que va guardando las noticias en la bd. 
-
+@app.route("/save")
 def saveNews():
+  con = sqlite3.connect("news.db")
+  cursor = con.cursor()
   for title in Titles.keys():
       for article in articles[title]:
 
-        title = article.title,
-        link = article.link,
-        published = article.published
-                
-         
-        # conexión con sqlite 
-        con = sqlite3.connect("news.db")
+        title = article.title
+        link = article.link
+       
 
-        # cursor
-        cursor = con.cursor()
+        if hasattr(article, 'published'):
+          published = article.published
+       	else:
+          published = ''
 
+        print "wwwwwwwwwwwwwwww"
         cursor.execute('''INSERT into news (title, link, publisher)
-                      values (?, ?, ?);''',(str(title),str(link),str(published)))
+                      values (?, ?, ?);''',(title,link,published))
+        print "wwwww---------wwwwwwwwwww"
+  con.commit()      
+  return render_template("home.html", articles=articles,titles=Titles)
 
-      con.commit()
+@app.route("/delete")      
+def deleteNews():
+  con = sqlite3.connect("news.db")
+  cursor = con.cursor()
+  print "wwwwwwwwwwwwwwww"
+  cursor.execute('''DELETE FROM news ''')
+  print "wwwww---------wwwwwwwwwww"
+  con.commit()      
+  return render_template("home.html", articles=articles,titles=Titles)
 
 def getting_unres(article):
        dict1 = {
@@ -69,7 +81,6 @@ def getting_unres(article):
 @app.route("/")
 def get_news():
 
-  saveNews() #aquí se llama al método creado.
   return render_template("home.html", articles=articles,titles=Titles)
 
 @app.route("/news/<string(length=3):journal>")
