@@ -20,3 +20,5 @@ Apliación de headlines con persistencia empleando una base de datos SqlLite.
 
 * Nos colocamos en la carpeta de este proyecto y ejecutamos lo siguiente : python headlines.py
 * Para acceder a la aplicación : http://localhost:5300
+* Para guardar : http://localhost:5300/save
+* Para borrar todos los registros : http://localhost:5300/delete
